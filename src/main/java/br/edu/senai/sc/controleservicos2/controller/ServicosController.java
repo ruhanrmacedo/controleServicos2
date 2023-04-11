@@ -59,13 +59,24 @@ public class ServicosController {
     }
 
     @PostMapping("/alterarValorClaro/{codigoServico}")
-    public String alterarValorClaro(@RequestBody Servicos servicos, @PathVariable("codigoServico") int codigoServico){
-        return "Valor alterado com sucesso!";
+    public ResponseEntity<String> alterarValorClaro(@RequestParam Double valorClaro, @PathVariable("codigoServico") Long codigoServico){
+        try {
+            servicosService.alterarValor(valorClaro, codigoServico);
+        }catch (Exception exception){
+            return new ResponseEntity<>("Erro ao alterar valor!", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Valor alterado com sucesso", HttpStatus.OK);
     }
 
-    @DeleteMapping("/excluir/{codigoServico}")
-    public String excluirServico(@PathVariable("codigoServico") int codigoServico){
-        return "Serviço excluido com sucesso!";
+    @DeleteMapping("/excluirServicos/{codigoServico}")
+    public ResponseEntity<String> excluirServicos(@PathVariable("codigoServico") Long codigoServico){
+        try {
+            servicosService.excluirServicos(codigoServico);
+        }catch (Exception exception){
+            return new ResponseEntity<>("Erro ao excluir o serviço", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Serviço excluido com sucesso", HttpStatus.OK);
     }
 
     @GetMapping("consultarServicos/{codigoServico}")

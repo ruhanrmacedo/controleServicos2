@@ -1,5 +1,6 @@
 package br.edu.senai.sc.controleservicos2.controller;
 
+import br.edu.senai.sc.controleservicos2.dto.ServicosExecutadosDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import br.edu.senai.sc.controleservicos2.service.ServicosExecutadosService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,10 @@ public class ServicosExecutadosController {
         this.servicosExecutadosService = servicosExecutadosService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> servicosExecutados(@RequestBody ServicosExecutados servicosExecutados){
+    @PostMapping("/executados")
+    public ResponseEntity<String> servicosExecutados(@RequestBody ServicosExecutadosDTO servicosExecutadosDTO){
         try {
-            servicosExecutadosService.registrarServico(servicosExecutados);
+            servicosExecutadosService.registrarServico(servicosExecutadosDTO);
         }catch (Exception exception){
             return new ResponseEntity<>("Erro na digitação", HttpStatus.BAD_REQUEST);
         }
@@ -40,6 +41,11 @@ public class ServicosExecutadosController {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    GetMapping("/valorPorTécnico")
+        public void valorPorTécnico(){
+
+        }
 
 
 }

@@ -53,9 +53,15 @@ public class GerenciamentoController {
         return new ResponseEntity<>("Técnico alterado com sucesso", HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/excluir/{codigoTecnico}")
-    public String excluirTecnico(@PathVariable("codigoTecnico") int codigoTecnico){
-        return "Técnico excluido com sucesso!";
+    @DeleteMapping("/excluirTecnico/{codigoTecnico}")
+    public ResponseEntity<String> excluirTecnico(@PathVariable("codigoTecnico") Long codigoTecnico){
+        try {
+            tecnicoService.excluirTecnico(codigoTecnico);
+        }catch (Exception exception){
+            return new ResponseEntity<>("Erro ao excluir o técnico", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Técnico excluido com sucesso", HttpStatus.OK);
     }
 
     @GetMapping("consultarTecnico/{codigoServico}")
