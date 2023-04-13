@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("api/servicoExecutado")
+@RequestMapping("/api/servicoExecutado")
 public class ServicosExecutadosController {
 
     private final ServicosExecutadosService servicosExecutadosService;
@@ -27,7 +27,7 @@ public class ServicosExecutadosController {
         try {
             servicosExecutadosService.registrarServico(servicosExecutadosDTO);
         }catch (Exception exception){
-            return new ResponseEntity<>("Erro na digitação", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Erro na digitação"+exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Serviço registrado com sucesso!", HttpStatus.CREATED);
     }
@@ -42,10 +42,10 @@ public class ServicosExecutadosController {
         }
     }
 
-    GetMapping("/valorPorTécnico")
+    /*GetMapping("/valorPorTécnico")
         public void valorPorTécnico(){
 
-        }
+        }*/
 
 
 }

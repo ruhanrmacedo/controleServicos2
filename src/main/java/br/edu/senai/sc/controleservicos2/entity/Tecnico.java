@@ -1,5 +1,6 @@
 package br.edu.senai.sc.controleservicos2.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Tecnico {
     private Long codigoTecnico;
     private String nome;
     private String cpf;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataAdmissao;
 
     @OneToMany(mappedBy = "tecnico")
