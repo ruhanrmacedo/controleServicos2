@@ -16,7 +16,7 @@ import java.util.List;
 public class Servicos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int codigoServico;
+    private Long codigoServico;
     private String descricao;
     private Double valorClaro;
     private Double valorTecnico;

@@ -26,7 +26,7 @@ public class ServicosController {
     @GetMapping("/teste")
     public ResponseEntity<Servicos> teste(){
         Servicos servicos = new Servicos();
-        servicos.setCodigoServico(2);
+        servicos.setCodigoServico(2L);
         servicos.setDescricao("PONTO EXTRA");
         servicos.setValorClaro(108.32);
         servicos.setValorTecnico(15.72);
