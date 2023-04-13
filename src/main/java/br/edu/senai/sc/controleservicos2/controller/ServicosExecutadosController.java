@@ -1,12 +1,15 @@
 package br.edu.senai.sc.controleservicos2.controller;
 
+import br.edu.senai.sc.controleservicos2.dto.ServicoTecnicoDTO;
 import br.edu.senai.sc.controleservicos2.dto.ServicosExecutadosDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
+import br.edu.senai.sc.controleservicos2.repository.ServicosExecutadosRepository;
 import br.edu.senai.sc.controleservicos2.service.ServicosExecutadosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +20,11 @@ import java.util.List;
 public class ServicosExecutadosController {
 
     private final ServicosExecutadosService servicosExecutadosService;
+    private final ServicosExecutadosRepository servicosExecutadosRepository;
 
-    public ServicosExecutadosController(ServicosExecutadosService servicosExecutadosService) {
+    public ServicosExecutadosController(ServicosExecutadosService servicosExecutadosService, ServicosExecutadosRepository servicosExecutadosRepository) {
         this.servicosExecutadosService = servicosExecutadosService;
+        this.servicosExecutadosRepository = servicosExecutadosRepository;
     }
 
     @PostMapping("/executados")
@@ -40,6 +45,15 @@ public class ServicosExecutadosController {
         }catch (Exception exception){
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    @GetMapping("/servicos-executados")
+    public ModelAndView listarServicosExecutados() {
+        ModelAndView mv = new ModelAndView("servicos-executados");
+        List<ServicoTecnicoDTO> servicosTecnicos = servicosExecutadosService.findAllServicoTecnicoDTO();
+        mv.addObject("servicosTecnicos", servicosTecnicos);
+        return mv;
     }
 
     /*GetMapping("/valorPorTécnico")

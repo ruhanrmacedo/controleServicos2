@@ -1,14 +1,17 @@
 package br.edu.senai.sc.controleservicos2.service;
 
+import br.edu.senai.sc.controleservicos2.dto.ServicoTecnicoDTO;
 import br.edu.senai.sc.controleservicos2.dto.ServicosExecutadosDTO;
 import br.edu.senai.sc.controleservicos2.entity.Servicos;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import br.edu.senai.sc.controleservicos2.entity.Tecnico;
+import br.edu.senai.sc.controleservicos2.repository.ServicoTecnicoProjection;
 import br.edu.senai.sc.controleservicos2.repository.ServicosExecutadosRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +49,16 @@ public class ServicosExecutadosService {
         servicosExecutadosRepository.save(servicosExecutados);
     }
 
-    public void consultar(){
-
+    public List<ServicoTecnicoDTO> findAllServicoTecnicoDTO() {
+        List<ServicoTecnicoProjection> listProjection = servicosExecutadosRepository.findAllProjectedBy();
+        List<ServicoTecnicoDTO> listDTO = new ArrayList<>();
+        for (ServicoTecnicoProjection projection : listProjection) {
+            ServicoTecnicoDTO dto = new ServicoTecnicoDTO();
+            dto.setDescricao(projection.getDescricao());
+            dto.setNome(projection.getNome());
+            listDTO.add(dto);
+        }
+        return listDTO;
     }
 
     public Optional<ServicosExecutados>localizarContrato(Long contrato){
