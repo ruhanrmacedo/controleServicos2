@@ -1,6 +1,5 @@
 package br.edu.senai.sc.controleservicos2.controller;
 
-import br.edu.senai.sc.controleservicos2.dto.ServicoTecnicoDTO;
 import br.edu.senai.sc.controleservicos2.dto.ServicosExecutadosDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import br.edu.senai.sc.controleservicos2.repository.ServicosExecutadosRepository;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +45,6 @@ public class ServicosExecutadosController {
         }
     }
 
-
-    @GetMapping("/servicos-executados")
-    public ModelAndView listarServicosExecutados() {
-        ModelAndView mv = new ModelAndView("servicos-executados");
-        List<ServicoTecnicoDTO> servicosTecnicos = servicosExecutadosService.findAllServicoTecnicoDTO();
-        mv.addObject("servicosTecnicos", servicosTecnicos);
-        return mv;
-    }
 
     /*GetMapping("/valorPorTécnico")
         public void valorPorTécnico(){

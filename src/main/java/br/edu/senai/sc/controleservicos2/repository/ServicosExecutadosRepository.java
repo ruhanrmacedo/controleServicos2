@@ -7,5 +7,4 @@ import java.util.List;
 @Repository
 public interface ServicosExecutadosRepository extends JpaRepository<ServicosExecutados, Long> {
 
-    List<ServicoTecnicoProjection> findAllProjectedBy();
 }
