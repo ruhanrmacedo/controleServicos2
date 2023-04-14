@@ -1,6 +1,7 @@
 package br.edu.senai.sc.controleservicos2.controller;
 
 import br.edu.senai.sc.controleservicos2.dto.ServicosExecutadosDTO;
+import br.edu.senai.sc.controleservicos2.dto.TecnicoDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import br.edu.senai.sc.controleservicos2.repository.ServicosExecutadosRepository;
 import br.edu.senai.sc.controleservicos2.service.ServicosExecutadosService;
@@ -43,6 +44,20 @@ public class ServicosExecutadosController {
         }catch (Exception exception){
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/tecnicos")
+    public List<TecnicoDTO> listarTecnicos() {
+        List<Object[]> results = servicosExecutadosRepository.listarTecnicosContratosValorClaro();
+        List<TecnicoDTO> tecnicos = new ArrayList<>();
+        for (Object[] result : results) {
+            TecnicoDTO tecnico = new TecnicoDTO();
+            tecnico.setNome((String) result[0]);
+            tecnico.setQuantidadeContratos((Integer) result[1]);
+            tecnico.setSomaValorClaro((Double) result[2]);
+            tecnicos.add(tecnico);
+        }
+        return tecnicos;
     }
 
 

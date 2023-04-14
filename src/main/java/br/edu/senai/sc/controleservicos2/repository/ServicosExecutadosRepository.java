@@ -2,6 +2,7 @@ package br.edu.senai.sc.controleservicos2.repository;
 import br.edu.senai.sc.controleservicos2.dto.ServicoTecnicoDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,24 +14,17 @@ import java.util.List;
 @Repository
 public interface ServicosExecutadosRepository extends JpaRepository<ServicosExecutados, Long> {
 
-    /*public static void main(String[] args) {
+    @Query(nativeQuery = true, value = "SELECT t.nome, COUNT(se.contrato), SUM(se.servicos.valorClaro) " +
+            "FROM servicos_executados se " +
+            "JOIN tecnico t ON se.tecnico_codigo_tecnico = t.codigo_tecnico " +
+            "GROUP BY t.nome")
+    List<Object[]> listarTecnicosContratosValorClaro();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("nome-da-unidade-de-persistencia");
-        EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT new br.edu.senai.sc.controleservicos2.dto.ServicoTecnicoDTO(se.contrato, se.dataExecucao, s.descricao, t.nome) " +
-                "FROM ServicosExecutados se " +
-                "JOIN se.servicos s " +
-                "JOIN se.tecnico t";
-
-        TypedQuery<ServicoTecnicoDTO> query = em.createQuery(jpql, ServicoTecnicoDTO.class);
-        List<ServicoTecnicoDTO> servicoTecnicoDTOList = query.getResultList();
-
-        for (ServicoTecnicoDTO servicoTecnicoDTO : servicoTecnicoDTOList) {
-            System.out.println(servicoTecnicoDTO.toString());
-        }
-
-        em.close();
-        emf.close();
-    }*/
+    @Query(value = "SELECT se.contrato, se.data_execucao, s.descricao, t.nome " +
+            "FROM Servicos_Executados se " +
+            "JOIN Servicos s ON se.servicos_codigo_servico = s.codigo_servico " +
+            "JOIN Tecnico t ON se.tecnico_codigo_tecnico = t.codigo_tecnico " +
+            "ORDER BY t.nome", nativeQuery = true)
+    List<Object[]> listarTecnicosContratosServicos();
 }

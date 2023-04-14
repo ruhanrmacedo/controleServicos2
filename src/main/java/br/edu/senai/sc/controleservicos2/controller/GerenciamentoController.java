@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -42,7 +43,7 @@ public class GerenciamentoController {
         return new ResponseEntity<>("Técnico cadastrado com sucesso", HttpStatus.CREATED);
     }
 
-    @PutMapping("/alterar")
+    @PutMapping("/alterar/{codigoTecnico}")
     public ResponseEntity<String> alterarTecnico(@RequestBody Tecnico tecnico, @PathVariable("codigoTecnico") int codigoTecnico) {
         try {
             tecnicoService.cadastrarTecnico(tecnico);
@@ -51,6 +52,17 @@ public class GerenciamentoController {
             return new ResponseEntity<>("Erro ao alterar técnico", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Técnico alterado com sucesso", HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/alterarDataAdmissao/{codigoTecnico}")
+    public ResponseEntity<String> alterarDataAdmissao(@RequestParam LocalDateTime dataAdmissao,
+                                                @PathVariable("codigoTecnico") Long codigoTecnico){
+        try{
+            tecnicoService.alterarDataAdmissao(dataAdmissao, codigoTecnico);
+        }catch (Exception exception){
+            return new ResponseEntity<>("Erro ao alterar a Data de Admissão", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Data de Admissão alterada com sucesso", HttpStatus.OK);
     }
 
     @DeleteMapping("/excluirTecnico/{codigoTecnico}")
@@ -64,8 +76,10 @@ public class GerenciamentoController {
         return new ResponseEntity<>("Técnico excluido com sucesso", HttpStatus.OK);
     }
 
-    @GetMapping("consultarTecnico/{codigoServico}")
-    public ResponseEntity<Tecnico> consultarServicos(@PathVariable("codigoTecnico") Long codigoTecnico) {
+
+
+    @GetMapping("/consultarTecnico/{codigoTecnico}")
+    public ResponseEntity<Tecnico> consultarTecnico(@PathVariable("codigoTecnico") Long codigoTecnico) {
         try {
             Optional<Tecnico> tecnico = tecnicoService.consultarTecnicoPorCodigo(codigoTecnico);
             if (Optional.ofNullable(tecnico).isPresent())
