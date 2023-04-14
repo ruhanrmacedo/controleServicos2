@@ -5,6 +5,9 @@ import br.edu.senai.sc.controleservicos2.dto.TecnicoDTO;
 import br.edu.senai.sc.controleservicos2.entity.ServicosExecutados;
 import br.edu.senai.sc.controleservicos2.repository.ServicosExecutadosRepository;
 import br.edu.senai.sc.controleservicos2.service.ServicosExecutadosService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,11 @@ public class ServicosExecutadosController {
     }
 
     @PostMapping("/executados")
+    @ApiResponses(value = {
+            @ApiResponse(code = 545, message = "Erro de teste"),
+            @ApiResponse(code = 207, message = "Executado com sucesso!")
+    })
+    @ApiOperation(value = "Cadastrar contrato executado")
     public ResponseEntity<String> servicosExecutados(@RequestBody ServicosExecutadosDTO servicosExecutadosDTO){
         try {
             servicosExecutadosService.registrarServico(servicosExecutadosDTO);
@@ -37,6 +45,7 @@ public class ServicosExecutadosController {
     }
 
     @GetMapping("/contratos")
+    @ApiOperation(value = "Localizar contratos")
     public ResponseEntity<List>localizarContratos(){
         try {
             List<ServicosExecutados> servicosExecutados = servicosExecutadosService.localizarContratos();
@@ -47,6 +56,7 @@ public class ServicosExecutadosController {
     }
 
     @GetMapping("/tecnicos")
+    @ApiOperation(value = "Erro")
     public List<TecnicoDTO> listarTecnicos() {
         List<Object[]> results = servicosExecutadosRepository.listarTecnicosContratosValorClaro();
         List<TecnicoDTO> tecnicos = new ArrayList<>();

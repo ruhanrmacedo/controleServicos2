@@ -2,6 +2,9 @@ package br.edu.senai.sc.controleservicos2.controller;
 
 import br.edu.senai.sc.controleservicos2.entity.Servicos;
 import br.edu.senai.sc.controleservicos2.service.ServicosService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +38,11 @@ public class ServicosController {
     }
 
     @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 545, message = "Erro de teste"),
+            @ApiResponse(code = 207, message = "Executado com sucesso!")
+    })
+    @ApiOperation(value = "Cadastrar novo Serviço")
     public ResponseEntity<String> cadastrarServico(@RequestBody Servicos servicos){
         try {
             servicosService.cadastrarServicos(servicos);
@@ -47,6 +55,7 @@ public class ServicosController {
     }
 
     @PutMapping("/alterar/")
+    @ApiOperation(value = "Alterar Serviço")
     public ResponseEntity<String> alterarServico(@RequestBody Servicos servicos, @PathVariable("codigoServico") int codigoServico){
         try {
             servicosService.cadastrarServicos(servicos);
@@ -59,6 +68,7 @@ public class ServicosController {
     }
 
     @PostMapping("/alterarValorClaro/{codigoServico}")
+    @ApiOperation(value = "Alterar Valor do Serviço")
     public ResponseEntity<String> alterarValorClaro(@RequestParam Double valorClaro, @PathVariable("codigoServico") Long codigoServico){
         try {
             servicosService.alterarValor(valorClaro, codigoServico);
@@ -69,6 +79,7 @@ public class ServicosController {
     }
 
     @DeleteMapping("/excluirServicos/{codigoServico}")
+    @ApiOperation(value = "Excluir Serviço")
     public ResponseEntity<String> excluirServicos(@PathVariable("codigoServico") Long codigoServico){
         try {
             servicosService.excluirServicos(codigoServico);
@@ -80,6 +91,7 @@ public class ServicosController {
     }
 
     @GetMapping("consultarServicos/{codigoServico}")
+    @ApiOperation(value = "Consultar Serviço")
     public ResponseEntity<Servicos> consultarServicos(@PathVariable("codigoServico") Long codigoServico) {
         try {
             Optional<Servicos> servicos = servicosService.consultarServicosPorCodigo(codigoServico);

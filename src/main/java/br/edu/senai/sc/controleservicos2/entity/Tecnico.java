@@ -26,7 +26,4 @@ public class Tecnico {
 
     @OneToMany(mappedBy = "tecnico")
     private List<ServicosExecutados> servicosExecutados;
-
-
-
 }

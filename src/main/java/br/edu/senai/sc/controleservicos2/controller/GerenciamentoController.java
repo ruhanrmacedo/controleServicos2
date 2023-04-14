@@ -1,6 +1,7 @@
 package br.edu.senai.sc.controleservicos2.controller;
 
 import br.edu.senai.sc.controleservicos2.entity.Tecnico;
+import br.edu.senai.sc.controleservicos2.repository.TecnicoRepository;
 import br.edu.senai.sc.controleservicos2.service.TecnicoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,18 +21,11 @@ import java.util.Optional;
 public class GerenciamentoController {
 
     private final TecnicoService tecnicoService;
+    private final TecnicoRepository tecnicoRepository;
 
-    public GerenciamentoController(TecnicoService tecnicoService) {
+    public GerenciamentoController(TecnicoService tecnicoService, TecnicoRepository tecnicoRepository) {
         this.tecnicoService = tecnicoService;
-    }
-
-    @GetMapping("/teste")
-    public ResponseEntity<Tecnico> teste(){
-        Tecnico tecnico = new Tecnico();
-        tecnico.setNome("Paulo");
-        tecnico.setCpf("075.000.000-20");
-
-        return new ResponseEntity<>(tecnico, HttpStatus.OK);
+        this.tecnicoRepository = tecnicoRepository;
     }
 
     @PostMapping
@@ -64,17 +58,18 @@ public class GerenciamentoController {
     }
 
     @PatchMapping("/alterarDataAdmissao/{codigoTecnico}")
-    public ResponseEntity<String> alterarDataAdmissao(@RequestParam LocalDateTime dataAdmissao,
-                                                @PathVariable("codigoTecnico") Long codigoTecnico){
-        try{
-            tecnicoService.alterarDataAdmissao(dataAdmissao, codigoTecnico);
-        }catch (Exception exception){
-            return new ResponseEntity<>("Erro ao alterar a Data de Admissão", HttpStatus.BAD_REQUEST);
+    @ApiOperation(value = "Erro - Failed to convert value of type 'java.lang.String' to required type 'java.time.LocalDateTime'")
+    public void alterarDataAdmissao(LocalDateTime dataAdmissao, Long codigoTecnico) {
+        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(codigoTecnico);
+        if (optionalTecnico.isPresent()) {
+            Tecnico tecnico = optionalTecnico.get();
+            tecnico.setDataAdmissao(dataAdmissao);
+            tecnicoRepository.save(tecnico);
         }
-        return new ResponseEntity<>("Data de Admissão alterada com sucesso", HttpStatus.OK);
     }
 
     @DeleteMapping("/excluirTecnico/{codigoTecnico}")
+    @ApiOperation(value = "Deletar técnico")
     public ResponseEntity<String> excluirTecnico(@PathVariable("codigoTecnico") Long codigoTecnico){
         try {
             tecnicoService.excluirTecnico(codigoTecnico);
@@ -88,6 +83,7 @@ public class GerenciamentoController {
 
 
     @GetMapping("/consultarTecnico/{codigoTecnico}")
+    @ApiOperation(value = "Erro")
     public ResponseEntity<Tecnico> consultarTecnico(@PathVariable("codigoTecnico") Long codigoTecnico) {
         try {
             Optional<Tecnico> tecnico = tecnicoService.consultarTecnicoPorCodigo(codigoTecnico);
