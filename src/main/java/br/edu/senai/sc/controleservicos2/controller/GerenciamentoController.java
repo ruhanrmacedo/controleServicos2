@@ -2,6 +2,9 @@ package br.edu.senai.sc.controleservicos2.controller;
 
 import br.edu.senai.sc.controleservicos2.entity.Tecnico;
 import br.edu.senai.sc.controleservicos2.service.TecnicoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,11 @@ public class GerenciamentoController {
     }
 
     @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 545, message = "Erro de teste"),
+            @ApiResponse(code = 207, message = "Executado com sucesso!")
+    })
+    @ApiOperation(value = "Cadastrar novo Técnico")
     public ResponseEntity<String> cadastrarTecnico(@RequestBody Tecnico tecnico){
         try {
             tecnicoService.cadastrarTecnico(tecnico);
@@ -44,6 +52,7 @@ public class GerenciamentoController {
     }
 
     @PutMapping("/alterar/{codigoTecnico}")
+    @ApiOperation(value = "Alterar técnico")
     public ResponseEntity<String> alterarTecnico(@RequestBody Tecnico tecnico, @PathVariable("codigoTecnico") int codigoTecnico) {
         try {
             tecnicoService.cadastrarTecnico(tecnico);
