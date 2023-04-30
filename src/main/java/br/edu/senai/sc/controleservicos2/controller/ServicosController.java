@@ -25,18 +25,6 @@ public class ServicosController {
         this.servicosService = servicosService;
     }
 
-
-    @GetMapping("/teste")
-    public ResponseEntity<Servicos> teste(){
-        Servicos servicos = new Servicos();
-        servicos.setCodigoServico(2L);
-        servicos.setDescricao("PONTO EXTRA");
-        servicos.setValorClaro(108.32);
-        servicos.setValorTecnico(15.72);
-
-        return new ResponseEntity<>(servicos, HttpStatus.OK);
-    }
-
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(code = 545, message = "Erro de teste"),
